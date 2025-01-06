@@ -1,3 +1,4 @@
 .aider*
 .env
 /vendor
+.phpunit.result.cache

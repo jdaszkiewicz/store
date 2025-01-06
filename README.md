@@ -15,6 +15,7 @@ This is a simple PHP-based web store application.
 2.  Install Composer dependencies: `composer install`
 3.  Start the PHP development server: `php -S localhost:8000`
 4.  Open your browser and navigate to `http://localhost:8000`.
+-   Run tests: `./vendor/bin/phpunit`
 
 ## Database
 
