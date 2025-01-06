@@ -21,8 +21,10 @@ function handleRegistration($db) {
 
         if (empty($errors)) {
             if (registerUser($db, $username, $password)) {
-                 header('Location: login.php');
-                 exit();
+                if (PHP_SAPI !== 'cli') {
+                    header('Location: login.php');
+                    exit();
+                }
             } else {
                 $errors[] = "Registration failed";
             }
@@ -48,8 +50,10 @@ function handleLogin($db) {
             $user = loginUser($db, $username, $password);
             if ($user) {
                 $_SESSION['user_id'] = $user['id'];
-                header('Location: index.php');
-                exit();
+                if (PHP_SAPI !== 'cli') {
+                    header('Location: index.php');
+                    exit();
+                }
             } else {
                 $errors[] = "Invalid username or password";
             }
