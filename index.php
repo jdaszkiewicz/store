@@ -61,7 +61,7 @@
                         $priceParts = explode('/', $fruit['price']);
                         $price = number_format((float)$priceParts[0], 2, '.', '');
                         $unit = isset($priceParts[1]) ? '/'.$priceParts[1] : '';
-                        echo $price . ' PLN' . $unit; 
+                        echo $price . ' PLN ' . $unit;
                         ?></p>
                     </div>
                 </div>

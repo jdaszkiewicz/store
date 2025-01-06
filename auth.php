@@ -1,5 +1,12 @@
 <?php
     function registerUser($db, $username, $password) {
+        $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
+        $stmt->bindValue(':username', $username, SQLITE3_TEXT);
+        $result = $stmt->execute();
+        $count = $result->fetchArray()[0];
+        if ($count > 0) {
+            return false;
+        }
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $stmt = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
@@ -8,7 +15,7 @@
     }
 
     function loginUser($db, $username, $password) {
-        $stmt = $db->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt = $db->prepare("SELECT id, username, password FROM users WHERE username = :username");
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
         $result = $stmt->execute();
         $user = $result->fetchArray(SQLITE3_ASSOC);

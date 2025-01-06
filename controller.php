@@ -10,13 +10,13 @@ function handleRegistration($db) {
         $confirm_password = $_POST['confirm_password'];
 
         if (empty($username)) {
-            $errors[] = "Username is required";
+            $errors[] = "Username is required.";
         }
         if (empty($password)) {
-            $errors[] = "Password is required";
+            $errors[] = "Password is required.";
         }
         if ($password != $confirm_password) {
-            $errors[] = "Passwords do not match";
+            $errors[] = "Passwords do not match.";
         }
 
         if (empty($errors)) {
@@ -38,10 +38,10 @@ function handleLogin($db) {
         $password = $_POST['password'];
 
         if (empty($username)) {
-            $errors[] = "Username is required";
+            $errors[] = "Username is required.";
         }
         if (empty($password)) {
-            $errors[] = "Password is required";
+            $errors[] = "Password is required.";
         }
 
         if (empty($errors)) {
