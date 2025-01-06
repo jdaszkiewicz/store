@@ -16,7 +16,7 @@ This is a simple PHP-based web store application.
 
 ## Database
 
-The application uses an SQLite database named `users.db`.
+The application uses an SQLite database named `users.db`. It contains two tables: `users` and `products`.
 
 ## Dependencies
 
@@ -27,4 +27,4 @@ The application uses an SQLite database named `users.db`.
 
 -   This is a basic example and may not be suitable for production use.
 -   The application does not include any advanced security features.
--   The product data is hardcoded in `index.php`.
+-   The product data is stored in the `products` table of the database.

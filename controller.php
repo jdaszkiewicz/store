@@ -58,4 +58,14 @@ function handleLogin($db) {
     }
     return $errors;
 }
+
+function getProducts($db) {
+    $query = "SELECT * FROM products";
+    $result = $db->query($query);
+    $products = [];
+    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+        $products[] = $row;
+    }
+    return $products;
+}
 ?>
