@@ -6,6 +6,7 @@ This is a simple PHP-based web store application.
 
 -   Product listing
 -   User registration and login
+-   Premium Products ( if user is logged in )
 -   Basic user dashboard
 
 ## Installation
