@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     function registerUser($db, $username, $password) {
         $stmt = $db->prepare("SELECT COUNT(*) FROM users WHERE username = :username");
         $stmt->bindValue(':username', $username, SQLITE3_TEXT);
@@ -22,8 +24,18 @@
         $user = $result->fetchArray(SQLITE3_ASSOC);
         
         if ($user && password_verify($password, $user['password'])) {
-            return $user;
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            session_write_close();
+            return true;
         }
         return false;
+    }
+
+    function logoutUser() {
+        session_unset();
+        session_destroy();
+        header('Location: login.php');
+        exit();
     }
 ?>

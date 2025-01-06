@@ -77,4 +77,8 @@ function getProducts($db) {
         return $products;
     }
 }
+
+function isUserLoggedIn() {
+    return isset($_SESSION['user_id']);
+}
 ?>
