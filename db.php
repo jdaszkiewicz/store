@@ -1,23 +1,34 @@
 <?php
     $db = new SQLite3('users.db');
 
-    $db->exec("CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE,
-        password TEXT
-    )");
+    $userTableCheckQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='users'";
+    $userTableCheckResult = $db->query($userTableCheckQuery);
+    $userTableExists = $userTableCheckResult->fetchArray();
 
-    $db->exec("CREATE TABLE IF NOT EXISTS products (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        description TEXT,
-        image TEXT,
-        price REAL
-    )");
+    if (!$userTableExists) {
+        $db->exec("CREATE TABLE users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE,
+            password TEXT
+        )");
+    }
 
-    // Insert some default products
-    $products = [
-        [
+    $productTableCheckQuery = "SELECT name FROM sqlite_master WHERE type='table' AND name='products'";
+    $productTableCheckResult = $db->query($productTableCheckQuery);
+    $productTableExists = $productTableCheckResult->fetchArray();
+
+    if (!$productTableExists) {
+        $db->exec("CREATE TABLE products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            description TEXT,
+            image TEXT,
+            price REAL,
+            premium INTEGER DEFAULT 0
+        )");
+
+        $products = [
+            [
             'name' => 'Durian',
             'description' => 'Known for its strong odor, the durian has a creamy, custard-like flesh.',
             'image' => 'https://placehold.co/600x400/png?text=Durian',
@@ -53,14 +64,30 @@
              'image' => 'https://placehold.co/600x400/png?text=Dragon+Fruit',
              'price' => 12.30
         ],
-    ];
+        [
+            'name' => 'Buddha\'s Hand',
+            'description' => 'A fragrant citrus fruit with finger-like sections.',
+            'image' => 'https://placehold.co/600x400/png?text=Buddhas+Hand',
+            'price' => 25.00,
+            'premium' => 1
+        ],
+        [
+            'name' => 'Yuzu',
+            'description' => 'A Japanese citrus fruit with a tart and aromatic flavor.',
+            'image' => 'https://placehold.co/600x400/png?text=Yuzu',
+            'price' => 30.00,
+            'premium' => 1
+        ]
+        ];
 
-    foreach ($products as $product) {
-        $stmt = $db->prepare("INSERT INTO products (name, description, image, price) VALUES (:name, :description, :image, :price)");
-        $stmt->bindValue(':name', $product['name'], SQLITE3_TEXT);
-        $stmt->bindValue(':description', $product['description'], SQLITE3_TEXT);
-        $stmt->bindValue(':image', $product['image'], SQLITE3_TEXT);
-        $stmt->bindValue(':price', $product['price'], SQLITE3_FLOAT);
-        $stmt->execute();
+        foreach ($products as $product) {
+            $stmt = $db->prepare("INSERT INTO products (name, description, image, price, premium) VALUES (:name, :description, :image, :price, :premium)");
+            $stmt->bindValue(':name', $product['name'], SQLITE3_TEXT);
+            $stmt->bindValue(':description', $product['description'], SQLITE3_TEXT);
+            $stmt->bindValue(':image', $product['image'], SQLITE3_TEXT);
+            $stmt->bindValue(':price', $product['price'], SQLITE3_FLOAT);
+            $stmt->bindValue(':premium', isset($product['premium']) ? $product['premium'] : 0, SQLITE3_INTEGER);
+            $stmt->execute();
+        }
     }
 ?>

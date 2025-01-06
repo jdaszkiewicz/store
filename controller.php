@@ -21,8 +21,8 @@ function handleRegistration($db) {
 
         if (empty($errors)) {
             if (registerUser($db, $username, $password)) {
-                header('Location: login.php');
-                exit();
+                 header('Location: login.php');
+                 exit();
             } else {
                 $errors[] = "Registration failed";
             }
@@ -47,9 +47,8 @@ function handleLogin($db) {
         if (empty($errors)) {
             $user = loginUser($db, $username, $password);
             if ($user) {
-                session_start();
                 $_SESSION['user_id'] = $user['id'];
-                header('Location: dashboard.php');
+                header('Location: index.php');
                 exit();
             } else {
                 $errors[] = "Invalid username or password";
@@ -60,12 +59,22 @@ function handleLogin($db) {
 }
 
 function getProducts($db) {
-    $query = "SELECT * FROM products";
-    $result = $db->query($query);
-    $products = [];
-    while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        $products[] = $row;
+    if (isset($_SESSION['user_id'])) {
+        $query = "SELECT * FROM products";
+        $result = $db->query($query);
+        $products = [];
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $products[] = $row;
+        }
+        return $products;
+    } else {
+        $query = "SELECT * FROM products WHERE premium IS NULL OR premium = 0";
+        $result = $db->query($query);
+        $products = [];
+         while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $products[] = $row;
+        }
+        return $products;
     }
-    return $products;
 }
 ?>

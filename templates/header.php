@@ -13,12 +13,15 @@
             <a class="navbar-brand" href="/">Exotic Fruits Store</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="register.php">Register</a>
-                    </li>
+                    <?php
+                    session_start();
+                    if (isset($_SESSION['user_id'])) {
+                        echo '<li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>';
+                    } else {
+                        echo '<li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>';
+                        echo '<li class="nav-item"><a class="nav-link" href="register.php">Register</a></li>';
+                    }
+                    ?>
                 </ul>
             </div>
         </div>

@@ -9,7 +9,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="mt-5 col-md-12 text-center">
             <h1>Dashboard</h1>
             <p>Welcome, User!</p>
             <a href="logout.php" class="btn btn-danger">Logout</a>
